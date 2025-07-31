@@ -10,46 +10,47 @@ type Team = {
 
 interface LeaderboardTableProps {
   data: Team[];
+  columns: { key: string; label: string }[];
   onTeamClick: (team: Team) => void;
 }
 
 const rankBg = [
-  'bg-yellow-400 text-black', // 1
-  'bg-gray-300 text-black',   // 2
-  'bg-orange-600 text-white'  // 3
+  'bg-[#FFD700] text-black',   // 1st (ทอง)
+  'bg-[#C0C0C0] text-black',   // 2nd (เงิน)
+  'bg-[#CD7F32] text-white'    // 3rd (ทองแดง)
 ];
 
-export default function LeaderboardTable({ data, onTeamClick }: LeaderboardTableProps) {
+export default function LeaderboardTable({ data, columns, onTeamClick }: LeaderboardTableProps) {
   return (
     <div className="overflow-x-auto">
-      <table className="min-w-full bg-[#1c1c1c] text-white rounded-lg shadow-lg">
-        <thead>
-          <tr className="bg-black">
-            <th className="px-4 py-2">Rank</th>
-            <th className="px-4 py-2">Group</th>
-            <th className="px-4 py-2">Week1 Points</th>
-            <th className="px-4 py-2">Week2 Points</th>
-            <th className="px-4 py-2">Week3 Points</th>
-            <th className="px-4 py-2">Total Points</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((team: Team, idx: number) => (
-            <tr
-              key={team.name}
-              className={`transition-all duration-200 cursor-pointer ${idx < 3 ? rankBg[idx] : ''} hover:bg-red-400/40`}
-              onClick={() => onTeamClick(team)}
-            >
-              <td className="px-4 py-2 font-bold">{idx + 1}</td>
-              <td className="px-4 py-2 font-bold">{team.name}</td>
-              <td className="px-4 py-2">{team.week1}</td>
-              <td className="px-4 py-2">{team.week2}</td>
-              <td className="px-4 py-2">{team.week3}</td>
-              <td className="px-4 py-2 font-bold">{team.total}</td>
+      <div className="rounded-xl overflow-hidden shadow-lg">
+        <table className="min-w-full bg-[#1c1c1c] text-white">
+          <thead>
+            <tr className="bg-black">
+              <th className="px-4 py-2 text-center">Rank</th>
+              <th className="px-4 py-2 text-center">Group</th>
+              {columns.map(col => (
+                <th key={col.key} className="px-4 py-2 text-center">{col.label}</th>
+              ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {data.map((team: Team, idx: number) => (
+              <tr
+                key={team.name}
+                className={`transition-all duration-200 cursor-pointer ${idx < 3 ? rankBg[idx] : ''} hover:bg-red-400/40`}
+                onClick={() => onTeamClick(team)}
+              >
+                <td className={`px-4 py-2 font-bold text-center ${idx === 0 ? 'rounded-tl-xl' : ''}`}>{idx + 1}</td>
+                <td className="px-4 py-2 font-bold text-center">{team.name}</td>
+                {columns.map(col => (
+                  <td key={col.key} className="px-4 py-2 text-center">{team[col.key as keyof Team]}</td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
