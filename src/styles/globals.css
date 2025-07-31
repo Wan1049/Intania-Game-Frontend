@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.racing-font {
+  font-family: 'Formula1', 'Orbitron', 'Oswald', 'Arial Black', Arial, sans-serif;
+  letter-spacing: 0.05em;
+}
+@font-face {
+  font-family: 'Formula1';
+  src: url('/fonts/Formula1-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
