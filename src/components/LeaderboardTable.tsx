@@ -15,16 +15,16 @@ interface LeaderboardTableProps {
 }
 
 const rankBg = [
-  'bg-[#FFD700] text-black',   // 1st (ทอง)
-  'bg-[#C0C0C0] text-black',   // 2nd (เงิน)
-  'bg-[#CD7F32] text-white'    // 3rd (ทองแดง)
+  'bg-yellow-300/80 text-gray-900',   // ทอง soft
+  'bg-gray-300/80 text-gray-900',     // เงิน soft
+  'bg-orange-300/80 text-gray-900'    // ทองแดง soft
 ];
 
 export default function LeaderboardTable({ data, columns, onTeamClick }: LeaderboardTableProps) {
   return (
     <div className="overflow-x-auto">
       <div className="rounded-xl overflow-hidden shadow-lg">
-        <table className="min-w-full bg-[#1c1c1c] text-white">
+        <table className="min-w-full w-max bg-neutral-900 text-white">
           <thead>
             <tr className="bg-black">
               <th className="px-4 py-2 text-center">Rank</th>
@@ -44,7 +44,7 @@ export default function LeaderboardTable({ data, columns, onTeamClick }: Leaderb
                 <td className={`px-4 py-2 font-bold text-center ${idx === 0 ? 'rounded-tl-xl' : ''}`}>{idx + 1}</td>
                 <td className="px-4 py-2 font-bold text-center">{team.name}</td>
                 {columns.map(col => (
-                  <td key={col.key} className="px-4 py-2 text-center">{team[col.key as keyof Team]}</td>
+                  <td key={col.key} className={`px-4 py-2 text-center ${idx === 0 && col.key === columns[columns.length - 1].key ? 'rounded-tr-xl' : ''}`}>{team[col.key as keyof Team]}</td>
                 ))}
               </tr>
             ))}
